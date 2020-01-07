@@ -36,7 +36,32 @@ class Product:
                 '''
                     SELECT *
                     FROM products
+                '''
+            ).fetchall()
+
+            return [Product(*product) for product in products]
+
+    @staticmethod
+    def get_all_active_products():
+        with DB() as db:
+            products = db.execute(
+                '''
+                    SELECT *
+                    FROM products
                     WHERE is_active = 1
+                '''
+            ).fetchall()
+
+            return [Product(*product) for product in products]
+
+    @staticmethod
+    def get_all_unactive_products():
+        with DB() as db:
+            products = db.execute(
+                '''
+                    SELECT *
+                    FROM products
+                    WHERE is_active = 0
                 '''
             ).fetchall()
 
