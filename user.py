@@ -20,7 +20,8 @@ class User:
                 '''
                     INSERT INTO users
                     VALUES (?, ?, ?, ?, ?, ?)
-                ''', values)
+                ''', values
+            )
 
             return self
 
@@ -34,7 +35,9 @@ class User:
                 '''
                     SELECT * FROM users
                     WHERE email = ?
-                ''', (email,)).fetchone()
+                ''', (email,)
+            ).fetchone()
+
             return User(*row)
 
     @staticmethod
@@ -51,5 +54,7 @@ class User:
                 '''
                     DELETE FROM users
                     WHERE name = ?
-                ''', (self.name,))
+                ''', (self.name,)
+            )
+
             return self
