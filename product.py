@@ -54,8 +54,7 @@ class Product:
                         price = ?,
                         published = ?,
                         is_active = ?,
-                        owner_id = ?,
-                        publisher_id = ?
+                        owner_id = ?
                     WHERE id = ?
                 ''', all_values
             )
