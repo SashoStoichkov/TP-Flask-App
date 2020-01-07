@@ -16,9 +16,10 @@ class User:
             values = (None, self.name, password, self.email,
                       self.address, self.phone)
 
-            db.execute('''
-                INSERT INTO users
-                VALUES (?, ?, ?, ?, ?, ?)
+            db.execute(
+                '''
+                    INSERT INTO users
+                    VALUES (?, ?, ?, ?, ?, ?)
                 ''', values)
 
             return self
@@ -29,9 +30,11 @@ class User:
             return None
 
         with DB() as db:
-            row = db.execute('''
-                SELECT * FROM users WHERE email = (?)''',
-                             (email,)).fetchone()
+            row = db.execute(
+                '''
+                    SELECT * FROM users
+                    WHERE email = ?
+                ''', (email,)).fetchone()
             return User(*row)
 
     @staticmethod
@@ -44,5 +47,9 @@ class User:
 
     def delete(self):
         with DB() as db:
-            db.execute("DELETE FROM users WHERE name = (?)", (self.name,))
+            db.execute(
+                '''
+                    DELETE FROM users
+                    WHERE name = ?
+                ''', (self.name,))
             return self
