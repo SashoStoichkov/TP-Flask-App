@@ -42,8 +42,8 @@ class User:
         return hashlib.sha256(password.encode('utf-8')).hexdigest()
 
     def veryfy_password(self, password):
-        return self.password == hashlib.sha256(password.encode('utf-8'))\
-                                                .hexdigest()
+        return self.password ==\
+               hashlib.sha256(password.encode('utf-8')).hexdigest()
 
     def delete(self):
         with DB() as db:
