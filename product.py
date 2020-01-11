@@ -1,21 +1,41 @@
+from datetime import datetime
+
 from database import DB
 
 
 class Product:
-    def __init__(self, id, title, content, price, published,
-                 is_active, owner_id, publisher_id):
+    def __init__(self, id, title, content, price):
         self.id = id
         self.title = title
         self.content = content
         self.price = price
-        self.published = published
-        self.is_active = is_active
-        self.owner_id = owner_id
-        self.publisher_id = publisher_id
+        self.published = self.get_current_datetime()
+        self.is_active = 1
+        self.owner_id = 1  # TODO
+        self.publisher_id = 1  # TODO
 
         self.values = (self.title, self.content, self.price,
                        self.published, self.is_active,
                        self.owner_id, self.publisher_id)
+
+    @staticmethod
+    def get_current_datetime():
+        now = datetime.now()
+
+        return now.strftime("%d-%m-%Y %H:%M:%S")
+
+    @staticmethod
+    def find_product(id):
+        with DB() as db:
+            product = db.execute(
+                '''
+                    SELECT id, title, content, price
+                    FROM products
+                    WHERE id = ?
+                ''', (id,)
+            ).fetchone()
+
+            return Product(*product)
 
     def add_product(self):
         with DB() as db:
@@ -34,7 +54,7 @@ class Product:
         with DB() as db:
             products = db.execute(
                 '''
-                    SELECT *
+                    SELECT id, title, content, price
                     FROM products
                 '''
             ).fetchall()
@@ -46,7 +66,7 @@ class Product:
         with DB() as db:
             products = db.execute(
                 '''
-                    SELECT *
+                    SELECT id, title, content, price
                     FROM products
                     WHERE is_active = 1
                 '''
@@ -59,7 +79,7 @@ class Product:
         with DB() as db:
             products = db.execute(
                 '''
-                    SELECT *
+                    SELECT id, title, content, price
                     FROM products
                     WHERE is_active = 0
                 '''
@@ -77,7 +97,6 @@ class Product:
                     SET title = ?,
                         content = ?,
                         price = ?,
-                        published = ?,
                         is_active = ?,
                         owner_id = ?
                     WHERE id = ?
