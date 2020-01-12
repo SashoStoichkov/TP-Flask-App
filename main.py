@@ -41,3 +41,7 @@ def delete_product(id):
     product.delete_product()
 
     return redirect("/products/")
+
+
+if __name__ == "__main__":
+    app.run()
