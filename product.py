@@ -95,3 +95,14 @@ class Product:
                     WHERE id = ?
                 ''', (self.id,)
             )
+
+    def buy_product(self, owner_id):
+        with DB() as db:
+            db.execute(
+                '''
+                    UPDATE products
+                    SET owner_id = ?
+                        is_active = ?
+                ''', (owner_id, 0)
+            )
+        pass
