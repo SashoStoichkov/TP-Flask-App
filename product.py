@@ -67,6 +67,18 @@ class Product:
 
             return [Product(*product) for product in products]
 
+    def get_all_user_products(self, user_id):
+        with DB() as db:
+            products = db.execute(
+                '''
+                    SELECT *
+                    FROM products
+                    WHERE id = ?
+                ''', (user_id,)
+            ).fetchall()
+
+            return [Product(*product) for product in products]
+
     def edit_product(self, new):
         with DB() as db:
             all_values = new.values + (self.id,)
@@ -105,4 +117,3 @@ class Product:
                         is_active = ?
                 ''', (owner_id, 0)
             )
-        pass
