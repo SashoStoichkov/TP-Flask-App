@@ -3,7 +3,7 @@ from database import DB
 
 class Product:
     def __init__(self, id, title, content, price, published,
-                 is_active, owner_id, publisher_id):
+                 is_active, publisher_id, owner_id=None):
         self.id = id
         self.title = title
         self.content = content
@@ -67,7 +67,8 @@ class Product:
 
             return [Product(*product) for product in products]
 
-    def get_all_user_products(self, user_id):
+    @staticmethod
+    def get_all_user_products(user_id):
         with DB() as db:
             products = db.execute(
                 '''
@@ -90,8 +91,7 @@ class Product:
                         content = ?,
                         price = ?,
                         published = ?,
-                        is_active = ?,
-                        owner_id = ?
+                        is_active = ?
                     WHERE id = ?
                 ''', all_values
             )
