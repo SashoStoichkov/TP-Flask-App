@@ -12,9 +12,11 @@
         <ul>
             {% for product in products %}
                 <li>
-                    Title: {{ product.title }} | Price: {{ product.price }}
+                    Title: {{ product.title }} | Price: {{ product.price }} <br>
+                    Owner: {{ product.owner_id }} | Publisher: {{ product.publisher_id }}
                     <!-- <a href="/products/{{ product.id }}/edit/">Edit</a> -->
                     <a href="/products/{{ product.id }}/delete/">Delete!</a>
+                    <a href="/products/{{ product.id }}/buy/2">Buy this product!</a>
                 </li>
                 <p>{{ product.content }}</p>
                 <br/>

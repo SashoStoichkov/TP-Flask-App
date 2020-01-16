@@ -55,7 +55,7 @@ class Product:
         with DB() as db:
             products = db.execute(
                 '''
-                    Sid, title, content, priceELECT *
+                    SELECT *
                     FROM products
                 '''
             ).fetchall()
@@ -129,12 +129,13 @@ class Product:
                 ''', (self.id,)
             )
 
-    def buy_product(self, owner_id):
+    @staticmethod
+    def buy_product(product_id, owner_id):
         with DB() as db:
             db.execute(
                 '''
                     UPDATE products
-                    SET owner_id = ?
-                        is_active = ?
-                ''', (owner_id, 0)
+                    SET owner_id = ?, is_active = ?
+                    WHERE id = ?
+                ''', (owner_id, 0, product_id)
             )
