@@ -1,6 +1,6 @@
 from flask import Flask
 from flask import render_template, request, redirect  # , url_for
-# from user import User
+from user import User
 from product import Product
 
 app = Flask(__name__)
@@ -51,6 +51,31 @@ def delete_product(id):
 def buy_producit(prod_id, own_id):
     Product.buy_product(prod_id, own_id)
     return redirect("/")
+
+
+@app.route("/register/", methods=['GET', 'POST'])
+def register_user():
+    if request.method == 'GET':
+        return render_template('register.html')
+    elif request.method == 'POST':
+        values = (
+            request.form['email'],
+            request.form['username'],
+            request.form['address'],
+            request.form['phone'],
+
+        )
+        User(*values).create(User.encrypt_password(request.form['password']))
+
+        return redirect('/')
+
+
+@app.route("/login/", methods=['GET', 'POST'])
+def login_user():
+    if request.method == 'GET':
+        return render_template('login.html')
+    elif request.method == 'POST':
+        pass
 
 
 if __name__ == "__main__":
