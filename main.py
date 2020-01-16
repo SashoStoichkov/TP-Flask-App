@@ -26,7 +26,7 @@ def create_product():
             None,
             request.form["title"],
             request.form["content"],
-            request.form["price"],if request.method == "GET":
+            request.form["price"],
             None,
             None,
             None
@@ -44,11 +44,13 @@ def delete_product(id):
 
     return redirect("/products/")
 
-# TODO: Have to find a way to get current user's ID (in order to set it in the db - owner_id)
-# TODO: finish buy_product()
-# TODO: make the html files 
-@app.route("/products/<int:id>/buy/", methods=["GET", "POST"])
-def buy_product(id, owner_id):
+
+# TODO: Have to find a way to get current user's ID (in order to set
+# it in the db - owner_id)``
+@app.route("/products/<int:prod_id>/buy/<int:own_id>", methods=["GET", "POST"])
+def buy_producit(prod_id, own_id):
+    Product.buy_product(prod_id, own_id)
+    return redirect("/")
 
 
 if __name__ == "__main__":
