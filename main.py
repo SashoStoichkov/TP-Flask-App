@@ -30,8 +30,11 @@ def create_product():
             request.form["price"]
         )
 
+        if all(values[i] == "" for i in range(1, 4)):
+            return redirect("/")
+
         Product(*values).add_product()
-        return redirect("/")
+        return redirect("/products/")
 
 
 @app.route("/products/<int:id>/delete/")
