@@ -9,7 +9,8 @@ app = Flask(__name__)
 
 @app.route("/")
 def index():
-    return render_template("index.html")
+    products = Product.get_all_products()
+    return render_template("index.html", products=products)
 
 
 @app.route("/products/")
@@ -34,7 +35,7 @@ def create_product():
             return redirect("/")
 
         Product(*values).add_product()
-        return redirect("/products/")
+        return redirect("/")
 
 
 @app.route("/products/<int:id>/delete/")
@@ -43,7 +44,7 @@ def delete_product(id):
 
     product.delete_product()
 
-    return redirect("/products/")
+    return redirect("/")
 
 
 if __name__ == "__main__":
