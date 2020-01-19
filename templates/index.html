@@ -4,15 +4,59 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css">
+    <link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
+
     <title>Flask App</title>
+    
+    <link rel="stylesheet" href="../static/css/index.css">
+    <script src="../static/js/index.js"></script>
 </head>
 <body>
-    <h1>Welcome to the store</h1>
+    <!-- <h1>Welcome to the store</h1>
     <br>
     <div class="product">
         <a href="/products/new/">Add new product</a>
         <br>
         <a href="/products/">See all products</a>
+    </div> -->
+
+    <h1 id="header" class="text-primary">Welcome to the store</h1>
+
+    <div class="container list-article">
+        {% if products %}
+            <div class="row">
+                {% for product in products %}
+                    <div class="col-xs-12 article-wrapper">
+                        <article>
+                            <a href="#" class="more">more</a>
+                            <div class="img-wrapper"><img src="https://www.fillmurray.com/150/150" alt="" /></div>
+                            <h1>{{ product.title }} | Price: {{ product.price }}</h1>
+                            <p>{{ product.content }}</p>
+                        </article>
+
+                        <article>
+                            <a href="/products/{{ product.id }}/delete/">Delete!</a>
+                        </article>
+                    </div>
+
+                    <hr style="border-top: 3px dashed red;">
+
+                {% endfor %}
+            </div>
+        {% else %}
+            <h1 id="header" class="text-primary">There are no products!</h1>
+        {% endif %}
+
+        <div class="col-xs-12 article-wrapper new">
+            <article>
+                <a href="/products/new/" class="new">Add new product!</a>
+            </article>
+        </div>
+        <!-- <br>
+        <a href="/products/">See all products</a> -->
     </div>
 </body>
 </html>
