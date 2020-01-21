@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Edit product</title>
+
+    <link rel="stylesheet" href="/static/css/edit_product.css">
+    <script src="/static/js/edit_product.js"></script>
+</head>
+
+<body>
+    <form class="form-style-7" action="/products/{{ id }}/edit/" method="POST">
+        <h1>Edit product</h1>
+        <ul>
+            <li>
+                <label for="title">Title</label>
+                <input type="text" name="title" maxlength="100" value="{{ product.title }}" required>
+                <span>Enter title of your product here</span>
+            </li>
+            <li>
+                <label for="content">Content</label>
+                <textarea name="content" onkeyup="adjust_textarea(this)" required>{{ product.content }}</textarea>
+                <span>Enter content here</span>
+            </li>
+            <li>
+                <label for="price">Price</label>
+                <input type="text" name="price" value="{{ product.price }}" required>
+                <span>Enter price of the product here</span>
+            </li>
+            <li>
+                <input type="submit" value="Save.">
+                <input formaction="/products/{{ product.id }}/delete/" formmethod="GET" type="submit" value="Delete!">
+            </li>
+        </ul>
+    </form>
+
+</body>
+
+</html>

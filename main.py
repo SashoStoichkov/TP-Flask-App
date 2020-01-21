@@ -9,7 +9,8 @@ app = Flask(__name__)
 
 @app.route("/")
 def index():
-    return render_template("index.html")
+    products = Product.get_all_products()
+    return render_template("index.html", products=products)
 
 
 @app.route("/products/")
@@ -34,7 +35,27 @@ def create_product():
             return redirect("/")
 
         Product(*values).add_product()
-        return redirect("/products/")
+        return redirect("/")
+
+
+@app.route("/products/<int:id>/edit/", methods=["GET", "POST"])
+def edit_product(id):
+    product = Product.find_product(id)
+
+    if request.method == "GET":
+        return render_template(
+            "product/edit_product.html", id=id, product=product
+        )
+    elif request.method == "POST":
+        v = (
+            product.id,
+            request.form["title"],
+            request.form["content"],
+            request.form["price"]
+        )
+
+        product.edit_product(Product(*v))
+        return redirect("/")
 
 
 @app.route("/products/<int:id>/delete/")
@@ -43,7 +64,7 @@ def delete_product(id):
 
     product.delete_product()
 
-    return redirect("/products/")
+    return redirect("/")
 
 
 if __name__ == "__main__":
