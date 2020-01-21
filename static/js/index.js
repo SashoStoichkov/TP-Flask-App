@@ -5,3 +5,5 @@ $(function(){
       $(".article-wrapper").toggleClass("bloc col-xs-12 col-xs-4");
     });
   });
+
+  
