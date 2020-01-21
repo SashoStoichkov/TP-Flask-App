@@ -14,7 +14,7 @@ class Product:
         self.owner_id = 1  # TODO
         self.publisher_id = 1  # TODO
 
-        self.values = (self.title, self.content, self.price,
+        self.values = (self.id, self.title, self.content, self.price,
                        self.published, self.is_active,
                        self.owner_id, self.publisher_id)
 
@@ -41,9 +41,9 @@ class Product:
         with DB() as db:
             db.execute(
                 '''
-                    INSERT INTO products (title, content, price,
+                    INSERT INTO products (id, title, content, price,
                         published, is_active, owner_id, publisher_id)
-                    VALUES (?, ?, ?, ?, ?, ?, ?)
+                    VALUES (?, ?, ?, ?, ?, ?, ?, ?)
                 ''', self.values
             )
 
@@ -89,16 +89,14 @@ class Product:
 
     def edit_product(self, new):
         with DB() as db:
-            all_values = new.values + (self.id,)
+            all_values = (new.title, new.content, new.price, self.id)
 
             db.execute(
                 '''
                     UPDATE products
                     SET title = ?,
                         content = ?,
-                        price = ?,
-                        is_active = ?,
-                        owner_id = ?
+                        price = ?
                     WHERE id = ?
                 ''', all_values
             )
