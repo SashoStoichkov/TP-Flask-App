@@ -15,14 +15,6 @@
     <script src="../static/js/index.js"></script>
 </head>
 <body>
-    <!-- <h1>Welcome to the store</h1>
-    <br>
-    <div class="product">
-        <a href="/products/new/">Add new product</a>
-        <br>
-        <a href="/products/">See all products</a>
-    </div> -->
-
     <h1 id="header" class="text-primary">Welcome to the store</h1>
 
     <div class="container list-article">
@@ -31,19 +23,12 @@
                 {% for product in products %}
                     <div class="col-xs-12 article-wrapper">
                         <article>
-                            <a href="#" class="more">more</a>
-                            <div class="img-wrapper"><img src="https://www.fillmurray.com/150/150" alt="" /></div>
+                            <a href="/products/{{ product.id }}/edit/" class="more">Edit product!</a>
+                            <div class="img-wrapper"><img src="https://via.placeholder.com/150" alt="" /></div>
                             <h1>{{ product.title }} | Price: {{ product.price }}</h1>
                             <p>{{ product.content }}</p>
                         </article>
-
-                        <article>
-                            <a href="/products/{{ product.id }}/delete/">Delete!</a>
-                        </article>
                     </div>
-
-                    <hr style="border-top: 3px dashed red;">
-
                 {% endfor %}
             </div>
         {% else %}
@@ -55,8 +40,6 @@
                 <a href="/products/new/" class="new">Add new product!</a>
             </article>
         </div>
-        <!-- <br>
-        <a href="/products/">See all products</a> -->
     </div>
 </body>
 </html>
