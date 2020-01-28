@@ -7,7 +7,6 @@ from user import User
 from product import Product
 
 app = Flask(__name__)
-# sess = Session()
 
 
 def require_login(func):
@@ -26,13 +25,6 @@ def index():
     return render_template("index.html", products=products)
 
 
-@app.route("/products/")
-def list_products():
-    print("I WAS CALLED_---------------------------------------------_-")
-    products = Product.get_all_active_products()
-    return render_template("product/products.html", products=products)
-
-
 @app.route("/products/new/", methods=["GET", "POST"])
 @require_login
 def create_product():
@@ -48,7 +40,7 @@ def create_product():
 
         if all(values[i] == "" for i in range(1, 4)):
             return redirect("/")
-     
+
         Product(*values).add_product(User.get_id_by_email(session['email']))
         return redirect("/")
 
@@ -98,11 +90,12 @@ def register():
 
         if User.get_user_by_email(values[0]):
             return redirect('/register')
+
         user = User(*values)
         user.password = User.encrypt_password(request.form['password'])
         user.create(User.encrypt_password(request.form['password']))
 
-        return redirect('/')
+        return redirect('/login')
 
 
 @app.route('/login', methods=["GET", "POST"])
@@ -111,26 +104,27 @@ def login():
         return render_template('login.html')
     elif request.method == 'POST':
         data = json.loads(request.data.decode('ascii'))
+
         email = data['email']
         password = data['password']
+
         user = User.get_user_by_email(email)
         if not user or not user.verify_password(password, email):
             return jsonify({'token': None})
 
         session['email'] = user.email
         token = user.generate_token()
+
         return jsonify({'token': token.decode('ascii')})
 
 
-@app.route("/products/<int:prod_id>/buy/", methods=["GET", "POST"])
+@app.route("/products/<int:prod_id>/buy/")
 @require_login
 def buy_product(prod_id):
-    if request.method == "GET":
-        own_id = User.get_id_by_email(session['email'])
-        Product.buy_product(prod_id, own_id)
-        return redirect("/")
-    if request.method == "POST":
-        return redirect("/")
+    own_id = User.get_id_by_email(session['email'])
+    Product.buy_product(prod_id, own_id)
+
+    return redirect("/")
 
 
 if __name__ == '__main__':

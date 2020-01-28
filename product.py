@@ -39,6 +39,7 @@ class Product:
     def add_product(self, publisher_id):
         with DB() as db:
             self.values += (publisher_id, publisher_id)
+
             db.execute(
                 '''
                     INSERT INTO products (id, title, content, price,

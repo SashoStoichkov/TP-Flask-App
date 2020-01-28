@@ -10,18 +10,28 @@
     <link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
 
     <title>Flask App</title>
-    
+
     <link rel="stylesheet" href="../static/css/index.css">
     <script src="../static/js/index.js"></script>
 </head>
 <body>
     <h1 id="header" class="text-primary">Welcome to the store</h1>
-    <div><a href="/register">Register</a></div>
+    <div class="col-xs-12 article-wrapper">
+        <article>
+            <a href="/login">Log in now!</a>
+        </article>
+    </div>
+
+    <div class="col-xs-12 article-wrapper">
+        <article>
+            <a href="/register">Register now!</a>
+        </article>
+    </div>
+
     <div class="container list-article">
         {% if products %}
             <div class="row">
                 {% for product in products %}
-                    {% if not product.is_active == 0 %}
                         <div class="col-xs-12 article-wrapper">
                             <article>
                                 <a href="/products/{{ product.id }}/edit/" class="more">Edit product!</a>
@@ -30,16 +40,15 @@
                                 <p>{{ product.content }}</p>
                             </article>
                         </div>
-                    {% endif %}  
                 {% endfor %}
             </div>
         {% else %}
             <h1 id="header" class="text-primary">There are no products!</h1>
         {% endif %}
 
-        <div class="col-xs-12 article-wrapper new">
+        <div class="col-xs-12 article-wrapper">
             <article>
-                <a href="/products/new/" class="new">Add new product!</a>
+                <a href="/products/new/">Add new product!</a>
             </article>
         </div>
     </div>

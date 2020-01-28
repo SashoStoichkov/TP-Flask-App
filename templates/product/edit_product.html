@@ -7,7 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Edit product</title>
 
-    <link rel="stylesheet" href="/static/css/edit_product.css">
+    <link rel="stylesheet" href="/static/css/form.css">
     <script src="/static/js/edit_product.js"></script>
 </head>
 
@@ -31,10 +31,12 @@
                 <span>Enter price of the product here</span>
             </li>
             <li>
-                <input type="submit" value="Save.">
+                <input type="submit" value="Save">
                 <input formaction="/products/{{ product.id }}/delete/" formmethod="GET" type="submit" value="Delete!">
+                <br>
+                <br>
+                <input formaction="/products/{{ product.id }}/buy/" formmethod="GET" type="submit" value="Buy Product!">
             </li>
-            <h1><a href="/products/{{ product.id }}/buy/">Buy Product</a></h1>
         </ul>
     </form>
 
