@@ -1,5 +1,5 @@
 from flask import Flask
-from flask import render_template, request, redirect, jsonify
+from flask import render_template, request, redirect, jsonify, session
 from functools import wraps
 import json
 
@@ -7,6 +7,7 @@ from user import User
 from product import Product
 
 app = Flask(__name__)
+# sess = Session()
 
 
 def require_login(func):
@@ -26,8 +27,10 @@ def index():
 
 
 @app.route("/products/")
-def list_products():
+def list_products(email):
+    print("I WAS CALLED_---------------------------------------------_-")
     products = Product.get_all_products()
+    # user = User.get_user_by_email(email)
     return render_template("product/products.html", products=products)
 
 
@@ -97,6 +100,7 @@ def register():
         if User.get_user_by_email(values[0]):
             return redirect('/register')
         user = User(*values)
+        user.password = User.encrypt_password(request.form['password'])
         user.create(User.encrypt_password(request.form['password']))
 
         return redirect('/')
@@ -110,15 +114,30 @@ def login():
         data = json.loads(request.data.decode('ascii'))
         email = data['email']
         password = data['password']
-        # from pdb import set_trace
-        # set_trace()
         user = User.get_user_by_email(email)
-        if not user or not user.verify_password(password):
+        if not user or not user.verify_password(password, email):
             return jsonify({'token': None})
+
+        session['email'] = user.email
         token = user.generate_token()
-        print("SUCCESS")
         return jsonify({'token': token.decode('ascii')})
 
 
+@app.route("/products/<int:prod_id>/buy/", methods=["GET", "POST"])
+@require_login
+def buy_product(prod_id):
+    if request.method == "GET":
+        from pdb import set_trace
+        set_trace()
+        return 'ok'
+    if request.method == "POST":
+        from pdb import set_trace
+        set_trace()
+        return redirect("/")
+
+
 if __name__ == '__main__':
+    app.secret_key = 'i am very secret'
+    app.config['SESSION_TYPE'] = 'shopSession'
+
     app.run()

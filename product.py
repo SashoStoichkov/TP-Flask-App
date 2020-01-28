@@ -112,3 +112,15 @@ class Product:
                     WHERE id = ?
                 ''', (self.id,)
             )
+
+    @staticmethod
+    def buy_product(product_id, owner_id):
+        with DB() as db:
+            db.execute(
+                '''
+                    UPDATE products
+                    SET is_active = 0
+                        owner_id = ?
+                    WHERE id = ?
+                ''', (owner_id, product_id)
+            )

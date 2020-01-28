@@ -23,7 +23,6 @@ class User:
         with DB() as db:
             values = (None, self.name, password, self.email,
                       self.address, self.phone)
-
             db.execute(
                 '''
                     INSERT INTO users
@@ -43,7 +42,7 @@ class User:
                     SELECT email, name, address, phone FROM users
                     WHERE email = ?
                 ''', (email,)
-            ).fetchone()  # TODO: should me email, not name
+            ).fetchone()
             if row:
                 return User(*row)
             return False
@@ -52,9 +51,16 @@ class User:
     def encrypt_password(password):
         return hashlib.sha256(password.encode('utf-8')).hexdigest()
 
-    def verify_password(self, password):
-        return self.password ==\
-               hashlib.sha256(password.encode('utf-8')).hexdigest()
+    def verify_password(self, password, email):
+        with DB() as db:
+            passw = db.execute(
+                '''
+                    SELECT password FROM users
+                    WHERE email = ?
+                ''', (email,)
+            ).fetchone()
+        return passw[0] ==\
+            hashlib.sha256(password.encode('utf-8')).hexdigest()
 
     def delete(self):
         with DB() as db:
