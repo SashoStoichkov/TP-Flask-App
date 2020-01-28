@@ -1,5 +1,13 @@
-from database import DB
 import hashlib
+from database import DB
+
+from itsdangerous import (
+    TimedJSONWebSignatureSerializer as Serializer,
+    BadSignature,
+    SignatureExpired
+    )
+
+SECRET_KEY = 'ssadkfvnklasf@13AS|asdganaofASFANSKF334'
 
 
 class User:
@@ -29,22 +37,22 @@ class User:
     def get_user_by_email(email):
         if not email:
             return None
-
         with DB() as db:
             row = db.execute(
                 '''
-                    SELECT * FROM users
+                    SELECT email, name, address, phone FROM users
                     WHERE email = ?
                 ''', (email,)
-            ).fetchone()
-
-            return User(*row)
+            ).fetchone()  # TODO: should me email, not name
+            if row:
+                return User(*row)
+            return False
 
     @staticmethod
     def encrypt_password(password):
         return hashlib.sha256(password.encode('utf-8')).hexdigest()
 
-    def veryfy_password(self, password):
+    def verify_password(self, password):
         return self.password ==\
                hashlib.sha256(password.encode('utf-8')).hexdigest()
 
@@ -58,3 +66,18 @@ class User:
             )
 
             return self
+
+    def generate_token(self):
+        s = Serializer(SECRET_KEY, expires_in=600)
+        return s.dumps({'email': self.email})
+
+    @staticmethod
+    def verify_token(token):
+        s = Serializer(SECRET_KEY)
+        try:
+            s.loads(token)
+        except SignatureExpired:
+            return False
+        except BadSignature:
+            return False
+        return True
