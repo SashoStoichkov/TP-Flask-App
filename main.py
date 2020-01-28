@@ -22,15 +22,14 @@ def require_login(func):
 
 @app.route('/')
 def index():
-    products = Product.get_all_products()
+    products = Product.get_all_active_products()
     return render_template("index.html", products=products)
 
 
 @app.route("/products/")
-def list_products(email):
+def list_products():
     print("I WAS CALLED_---------------------------------------------_-")
-    products = Product.get_all_products()
-    # user = User.get_user_by_email(email)
+    products = Product.get_all_active_products()
     return render_template("product/products.html", products=products)
 
 
@@ -49,8 +48,8 @@ def create_product():
 
         if all(values[i] == "" for i in range(1, 4)):
             return redirect("/")
-
-        Product(*values).add_product()
+     
+        Product(*values).add_product(User.get_id_by_email(session['email']))
         return redirect("/")
 
 
@@ -127,12 +126,10 @@ def login():
 @require_login
 def buy_product(prod_id):
     if request.method == "GET":
-        from pdb import set_trace
-        set_trace()
-        return 'ok'
+        own_id = User.get_id_by_email(session['email'])
+        Product.buy_product(prod_id, own_id)
+        return redirect("/")
     if request.method == "POST":
-        from pdb import set_trace
-        set_trace()
         return redirect("/")
 
 

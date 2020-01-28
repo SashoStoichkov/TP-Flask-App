@@ -87,3 +87,13 @@ class User:
         except BadSignature:
             return False
         return True
+
+    @staticmethod
+    def get_id_by_email(email):
+        with DB() as db:
+            return db.execute(
+                '''
+                    SELECT id FROM users
+                    WHERE email = ?
+                ''', (email,)
+            ).fetchone()[0]

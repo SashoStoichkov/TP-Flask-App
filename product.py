@@ -11,12 +11,11 @@ class Product:
         self.price = price
         self.published = self.get_current_datetime()
         self.is_active = 1
-        self.owner_id = 1  # TODO
-        self.publisher_id = 1  # TODO
+        self.owner_id = None
+        self.publisher_id = None
 
         self.values = (self.id, self.title, self.content, self.price,
-                       self.published, self.is_active,
-                       self.owner_id, self.publisher_id)
+                       self.published, self.is_active)
 
     @staticmethod
     def get_current_datetime():
@@ -37,8 +36,9 @@ class Product:
 
             return Product(*product)
 
-    def add_product(self):
+    def add_product(self, publisher_id):
         with DB() as db:
+            self.values += (publisher_id, publisher_id)
             db.execute(
                 '''
                     INSERT INTO products (id, title, content, price,
@@ -119,7 +119,7 @@ class Product:
             db.execute(
                 '''
                     UPDATE products
-                    SET is_active = 0
+                    SET is_active = 0,
                         owner_id = ?
                     WHERE id = ?
                 ''', (owner_id, product_id)
