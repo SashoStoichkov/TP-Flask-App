@@ -37,7 +37,7 @@ def index():
 
 
 @app.route("/products/new/", methods=["GET", "POST"])
-# @require_login TODO
+@require_login
 def create_product():
     form = ProductForm()
 
@@ -76,7 +76,7 @@ def view_product(id):
 
 
 @app.route("/products/<int:id>/edit/", methods=["GET", "POST"])
-# @require_login TODO
+@require_login
 def edit_product(id):
     product = Product.find_product(id)
 
@@ -106,7 +106,7 @@ def edit_product(id):
     )
 
 @app.route("/products/<int:id>/delete/", methods=["POST"])
-# @require_login TODO
+@require_login
 def delete_product(id):
     product = Product.find_product(id)
 
@@ -137,7 +137,6 @@ def register():
     return render_template('user/register.html', title='Register', form=form)
 
 
-# TODO: after login redirect to homepage
 @app.route('/login', methods=["GET", "POST"])
 def login():
     form = LoginForm()
@@ -161,13 +160,16 @@ def login():
 
 
 @app.route("/products/<int:product_id>/buy/")
-# @require_login TODO
+@require_login
 def buy_product(product_id):
     owner_id = User.get_id_by_email(session['email'])
     Product.buy_product(product_id, owner_id)
 
+    product = Product.find_product(product_id)
+    p_id = product.get_publisher_id()
+
     flash('Congratulations on your purchase!', 'success')
-    flash(f'Contact {User.get_username_by_id(owner_id)} to confirm!', 'success')
+    flash(f'Contact {User.get_username_by_id(p_id)} to confirm!', 'success')
     return redirect("/")
 
 

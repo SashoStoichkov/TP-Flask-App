@@ -2,7 +2,7 @@
 
 {% block content %}
     <div class="content-section">
-        <form method="POST">
+        <form id="myForm" method="POST">
             {{ form.hidden_tag() }}
             <fieldset class="form-group">
                 <legend class="border-bottom mb-4">Log In</legend>
@@ -34,7 +34,7 @@
                 </div>
             </fieldset>
             <div class="form-group">
-                <button type="submit" class="btn btn-outline-info" onclick="login()">Log In</button>
+                {{ form.submit(class="btn btn-outline-info", onclick="login()") }}
             </div>
         </form>
     </div>

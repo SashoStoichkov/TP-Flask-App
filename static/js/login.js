@@ -1,20 +1,40 @@
-function login() {
-    var email = document.getElementById('email').value;
-    var password = document.getElementById('password').value;
+window.addEventListener( "load", function () {
+    function login() {
+        const XHR = new XMLHttpRequest();
 
-    var request = new XMLHttpRequest();
-    request.open("POST", '/login', true);
-    request.onload = function() {
-        var token = JSON.parse(request.responseText).token;
-        if (token != null) {
-            document.cookie = 'token=' + token + ';';
-            document.location = '/';
-        } else {
-            alert('No can do');
-        }
+        // Bind the FormData object and the form element
+        const FD = new FormData( form );
+
+        // Define what happens on successful data submission
+        XHR.addEventListener( "load", function(event) {
+            var token = JSON.parse(event.target.responseText).token;
+            if (token != null) {
+                document.cookie = 'token=' + token + ';';
+                document.location = '/';
+            } else {
+                document.location = '/login';
+            }
+        } );
+
+        // Define what happens in case of error
+        XHR.addEventListener( "error", function( event ) {
+            alert( 'Oops! Something went wrong.' );
+        } );
+
+        // Set up our request
+        XHR.open( "POST", "/login" );
+
+        // The data sent is what the user provided in the form
+        XHR.send( FD );
     }
-    request.send(JSON.stringify({
-        email: email,
-        password: password
-    }));
-}
+
+    // Access the form element...
+    let form = document.getElementById( "myForm" );
+
+    // ...and take over its submit event.
+    form.addEventListener( "submit", function ( event ) {
+        event.preventDefault();
+
+        login();
+    } );
+} );

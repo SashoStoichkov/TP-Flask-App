@@ -2,6 +2,10 @@
 
 {% block content %}
     {% if products %}
+        <div class="md-form mt-1 mb-2">
+            <input class="form-control" type="text" name="search" placeholder="Search" aria-label="Search">
+        </div>
+
         {% for product in products %}
             <article class="media content-section">
                 <img class="rounded-circle article-img" src="https://via.placeholder.com/150" alt="">
