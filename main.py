@@ -173,6 +173,12 @@ def buy_product(product_id):
     return redirect("/")
 
 
+@app.route("/profile/<string:username>/")
+def profile(username):
+    user = User.get_user_by_username(username)
+
+    return render_template('user/profile.html', title=username+"'s Profile", user=user)
+
 if __name__ == '__main__':
     app.secret_key = 'i am very secret'
     app.config['SESSION_TYPE'] = 'shopSession'

@@ -114,6 +114,25 @@ class User:
                 ''', (id,)
             ).fetchone()[0]
 
+    @staticmethod
+    def get_user_by_username(username):
+        with DB() as db:
+            if not username:
+                return None
+
+            with DB() as db:
+                row = db.execute(
+                    '''
+                        SELECT email, name, address, phone FROM users
+                        WHERE name = ?
+                    ''', (username,)
+                ).fetchone()
+
+                if row:
+                    return User(*row)
+
+                return False
+
     # TODO: fix this
     # def get_all_products_bought(self):
     #     with DB() as db:
