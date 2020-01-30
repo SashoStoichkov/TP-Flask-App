@@ -1,56 +1,39 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+{% extends 'layout.html' %}
 
-    <!-- Bootstrap -->
-    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css">
-    <link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
-
-    <title>Flask App</title>
-
-    <link rel="stylesheet" href="../static/css/index.css">
-    <script src="../static/js/index.js"></script>
-</head>
-<body>
-    <h1 id="header" class="text-primary">Welcome to the store</h1>
-    <div class="col-xs-12 article-wrapper">
-        <article>
-            <a href="/login">Log in now!</a>
-        </article>
-    </div>
-
-    <div class="col-xs-12 article-wrapper">
-        <article>
-            <a href="/register">Register now!</a>
-        </article>
-    </div>
-
-    <div class="container list-article">
-        {% if products %}
-            <div class="row">
-                {% for product in products %}
-                        <div class="col-xs-12 article-wrapper">
-                            <article>
-                                <a href="/products/{{ product.id }}/edit/" class="more">Edit product!</a>
-                                <div class="img-wrapper"><img src="https://via.placeholder.com/150" alt="" /></div>
-                                <h1>{{ product.title }} | Price: {{ product.price }}</h1>
-                                <p>{{ product.content }}</p>
-                            </article>
-                        </div>
-                {% endfor %}
-            </div>
-        {% else %}
-            <h1 id="header" class="text-primary">There are no products!</h1>
-        {% endif %}
-
-        <div class="col-xs-12 article-wrapper">
-            <article>
-                <a href="/products/new/">Add new product!</a>
-            </article>
+{% block content %}
+    {% if products %}
+        <div class="md-form mt-1 mb-2">
+            <input class="form-control" type="text" name="search" placeholder="Search" aria-label="Search">
         </div>
-    </div>
-</body>
-</html>
+
+        {% for product in products %}
+            <article class="media content-section">
+                <img class="rounded-circle article-img" src="https://via.placeholder.com/150" alt="">
+                <div class="media-body">
+                    <div class="article-metadata">
+                        <a class="mr-2" href="/profile/{{ product.get_username_by_publisher_id(product.title) }}">
+                            {{ product.get_username_by_publisher_id(product.title) }}
+                        </a>
+                        <small class="text-muted">{{ product.get_product_published_date() }}</small>
+                    </div>
+                    <h2>
+                        <a class="article-title" href="{{ url_for('view_product', id=product.id) }}">
+                            {{ product.title }}
+                        </a> | Price: {{ product.price }}
+                    </h2>
+                    <p class="article-content">{{ product.content }}</p>
+                </div>
+            </article>
+        {% endfor %}
+    {% endif %}
+{% endblock content %}
+
+<!--
+{% block bought %}
+    {% for product in bought_products %}
+        <ul class="list-group">
+            <li class="list-group-item list-group-item-light">test</li>
+        </ul>
+    {% endfor %}
+{% endblock bought %}
+-->

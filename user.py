@@ -103,3 +103,46 @@ class User:
                     WHERE email = ?
                 ''', (email,)
             ).fetchone()[0]
+
+    @staticmethod
+    def get_username_by_id(id):
+        with DB() as db:
+            return db.execute(
+                '''
+                    SELECT name FROM users
+                    WHERE id = ?
+                ''', (id,)
+            ).fetchone()[0]
+
+    @staticmethod
+    def get_user_by_username(username):
+        with DB() as db:
+            if not username:
+                return None
+
+            with DB() as db:
+                row = db.execute(
+                    '''
+                        SELECT email, name, address, phone FROM users
+                        WHERE name = ?
+                    ''', (username,)
+                ).fetchone()
+
+                if row:
+                    return User(*row)
+
+                return False
+
+    # TODO: fix this
+    # def get_all_products_bought(self):
+    #     with DB() as db:
+    #         products = db.execute(
+    #             '''
+    #                 SELECT *
+    #                 FROM products
+    #                 WHERE owner_id != publisher_id
+    #                     AND owner_id = ?
+    #             ''', (self.id,)
+    #         ).fetchall()
+
+    #         return [product for product in products]

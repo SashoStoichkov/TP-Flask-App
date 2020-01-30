@@ -23,6 +23,26 @@ class Product:
 
         return now.strftime("%d-%m-%Y %H:%M:%S")
 
+    def get_product_published_date(self):
+        with DB() as db:
+            return db.execute(
+                '''
+                    SELECT published
+                    FROM products
+                    WHERE id = ?
+                ''', (self.id,)
+            ).fetchone()[0]
+
+    def get_publisher_id(self):
+        with DB() as db:
+            return db.execute(
+                '''
+                    SELECT publisher_id
+                    FROM products
+                    WHERE id = ?
+                ''', (self.id,)
+            ).fetchone()[0]
+
     @staticmethod
     def find_product(id):
         with DB() as db:
@@ -125,3 +145,17 @@ class Product:
                     WHERE id = ?
                 ''', (owner_id, product_id)
             )
+
+    @staticmethod
+    def get_username_by_publisher_id(product_title):
+        with DB() as db:
+            return db.execute(
+                '''
+                    SELECT users.id, products.publisher_id,
+                        users.name, products.title
+                    FROM users
+                    INNER JOIN products
+                        ON users.id = products.publisher_id
+                            AND products.title = ?
+                ''', (product_title,)
+            ).fetchone()[2]
