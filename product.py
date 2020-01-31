@@ -113,7 +113,7 @@ class Product:
                 ''', (publisher_id,)
             ).fetchall()
 
-            return [Product(*product) for product in products]
+            return products
 
     def edit_product(self, new):
         with DB() as db:
