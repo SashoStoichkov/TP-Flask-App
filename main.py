@@ -26,15 +26,23 @@ def require_login(func):
 @app.route('/products')
 def index():
     products = Product.get_all_active_products()
-    user = User.get_user_by_email(session["email"])
-    user_id = User.get_id_by_email(session["email"])
 
-    bought_products = Product.get_all_unactive_products(user_id)
+    if (session):
+        user = User.get_user_by_email(session["email"])
+        user_id = User.get_id_by_email(session["email"])
 
-    return render_template(
-        "index.html",
-        products=products, bought_products=bought_products, user=user
-    )
+        bought_products = Product.get_all_unactive_products(user_id)
+
+        return render_template(
+            "index.html",
+            products=products, bought_products=bought_products, username=user.name
+        )
+
+    else:
+        return render_template(
+            "index.html",
+            products=products, username="GuestUser"
+        )
 
 
 @app.route("/products/new/", methods=["GET", "POST"])
