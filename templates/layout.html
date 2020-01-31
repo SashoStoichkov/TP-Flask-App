@@ -55,10 +55,14 @@
             </div>
 
             <div class="col-md-4">
-                <div class="content-section">
-                    {% block bought %} {% endblock %}
-                    </p>
-                </div>
+                {% block additional %}
+                    <div class="content-section">
+                        {% block bought %} {% endblock %}
+                    </div>
+                    <div class="content-section">
+                        {% block my_products %} {% endblock %}
+                    </div>
+                {% endblock additional %}
             </div>
         </div>
     </main>
