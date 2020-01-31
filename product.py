@@ -167,14 +167,14 @@ class Product:
                 ''', (product_title,)
             ).fetchone()[2]
 
-    @staticmethod
-    def get_products_by_name(name):
-        with DB() as db:
-            products = db.execute(
-                '''
-                    SELECT *
-                    FROM products
-                    WHERE title = ?
-                ''', (name,)
-            ).fetchall()
-            return [Product(*product) for product in products]
+    # @staticmethod
+    # def get_products_by_name(name):
+    #     with DB() as db:
+    #         products = db.execute(
+    #             '''
+    #                 SELECT *
+    #                 FROM products
+    #                 WHERE title = ?
+    #             ''', (name,)
+    #         ).fetchall()
+    #         return [Product(*product) for product in products]

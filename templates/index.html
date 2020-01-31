@@ -3,10 +3,11 @@
 {% block content %}
     {% if username != "GuestUser" %}
         {% if products %}
+            <!--
             <div class="md-form mt-1 mb-2">
-                <!-- <input class="form-control" type="text" placeholder="Search" aria-label="Search"> -->
-                <a href="/search">Search</a>
+                <input class="form-control" type="text" placeholder="Search" aria-label="Search">
             </div>
+            -->
 
             {% for product in products %}
                 <article class="media content-section">

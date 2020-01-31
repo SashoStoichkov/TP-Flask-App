@@ -195,17 +195,17 @@ def profile(username):
     )
 
 
-@app.route("/search/", methods=["GET", "POST"])
-def search():
-    if request.method == "GET":
-        return render_template('search.html')
-    elif request.method == "POST":
-        products = Product.get_products_by_name(request.form['search'])
-        return render_template('search.html', products=products)
+# @app.route("/search/", methods=["GET", "POST"])
+# def search():
+#     if request.method == "GET":
+#         return render_template('search.html')
+#     elif request.method == "POST":
+#         products = Product.get_products_by_name(request.form['search'])
+#         return render_template('search.html', products=products)
 
 
 if __name__ == '__main__':
     app.secret_key = 'i am very secret'
     app.config['SESSION_TYPE'] = 'shopSession'
 
-    app.run(debug=True)
+    app.run()
