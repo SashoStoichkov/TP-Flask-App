@@ -109,7 +109,7 @@ class Product:
                 ''', (publisher_id,)
             ).fetchall()
 
-            return products
+            return [Product(*product) for product in products]
 
     def edit_product(self, new):
         with DB() as db:
@@ -162,3 +162,15 @@ class Product:
                             AND products.title = ?
                 ''', (product_title,)
             ).fetchone()[2]
+
+    @staticmethod
+    def get_products_by_name(name):
+        with DB() as db:
+            products = db.execute(
+                '''
+                    SELECT *
+                    FROM products
+                    WHERE title = ?
+                ''', (name,)
+            ).fetchall()
+            return [Product(*product) for product in products]

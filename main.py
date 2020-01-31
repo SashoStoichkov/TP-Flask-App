@@ -1,8 +1,8 @@
 from flask import Flask
 from flask import render_template, request, redirect,\
-                  jsonify, session, url_for, flash, abort
+                  jsonify, session, url_for, flash  # , abort
 from functools import wraps
-import json
+# import json
 
 from user import User
 from product import Product
@@ -192,6 +192,15 @@ def profile(username):
         'user/profile.html',
         title=username+"'s Profile", user=user
     )
+
+
+@app.route("/search/", methods=["GET", "POST"])
+def search():
+    if request.method == "GET":
+        return render_template('search.html')
+    elif request.method == "POST":
+        products = Product.get_products_by_name(request.form['search'])
+        return render_template('search.html', products=products)
 
 
 if __name__ == '__main__':

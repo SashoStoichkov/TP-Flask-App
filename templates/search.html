@@ -1,0 +1,18 @@
+<div class="search">
+    <form action="/search/">\
+        <label for="search">Search</label>
+        <input type="text" name="search">
+        <input type="submit" name="submit">
+    </form>
+    {% if products %}
+    <div>
+        {% for product in products %}
+            <div>
+                <h1>{{ product.title }}</h1>
+                <p>{{ content }}</p>
+                <p>{{ price }}</p>
+            </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+</div>
