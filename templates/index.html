@@ -3,7 +3,7 @@
 {% block content %}
     {% if products %}
         <div class="md-form mt-1 mb-2">
-            <input class="form-control" type="text" name="search" placeholder="Search" aria-label="Search">
+            <input class="form-control" type="text" placeholder="Search" aria-label="Search">
         </div>
 
         {% for product in products %}
@@ -28,12 +28,18 @@
     {% endif %}
 {% endblock content %}
 
-<!--
+
 {% block bought %}
-    {% for product in bought_products %}
-        <ul class="list-group">
-            <li class="list-group-item list-group-item-light">test</li>
-        </ul>
-    {% endfor %}
+    <h4>Hello {{ user.name }}!</h4>
+    <h5>People that bought your products:</h5>
+
+    {% if bought_products %}
+        {% for product in bought_products %}
+            <ul class="list-group">
+                <li class="list-group-item list-group-item-light">
+                    {{ product[0] }} - <a href="/profile/{{ product[1] }}">{{ product[1] }}</a>
+                </li>
+            </ul>
+        {% endfor %}
+    {% endif %}
 {% endblock bought %}
--->

@@ -26,13 +26,14 @@ def require_login(func):
 @app.route('/products')
 def index():
     products = Product.get_all_active_products()
-    # TODO: fix this
-    # user = User.get_user_by_email(session["email"])
-    # bought_products = user.get_all_products_bought()
+    user = User.get_user_by_email(session["email"])
+    user_id = User.get_id_by_email(session["email"])
+
+    bought_products = Product.get_all_unactive_products(user_id)
 
     return render_template(
         "index.html",
-        products=products#, bought_products=bought_products
+        products=products, bought_products=bought_products, user=user
     )
 
 
