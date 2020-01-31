@@ -140,6 +140,11 @@ def register():
             phone=form.phone.data
         )
 
+        u = User.get_user_by_email(form.email.data)
+        if u:
+            flash('User already exists! Try again.', 'danger')
+            return redirect(url_for('register'))
+
         user.password = User.encrypt_password(form.password.data)
         user.create(User.encrypt_password(form.password.data))
 
