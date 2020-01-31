@@ -5,3 +5,6 @@ __pycache__/
 
 # Databases
 *.db
+
+# vscode/
+.vscode/

@@ -35,7 +35,8 @@ def index():
 
         return render_template(
             "index.html",
-            products=products, bought_products=bought_products, username=user.name
+            products=products, bought_products=bought_products,
+            username=user.name
         )
 
     else:
@@ -52,10 +53,10 @@ def create_product():
 
     if form.validate_on_submit():
         product = Product(
-            id = None,
-            title = form.title.data,
-            content = form.content.data,
-            price = form.price.data
+            id=None,
+            title=form.title.data,
+            content=form.content.data,
+            price=form.price.data
         )
 
         product.add_product(User.get_id_by_email(session['email']))
@@ -93,10 +94,10 @@ def edit_product(id):
 
     if form.validate_on_submit():
         new_product = Product(
-            id = product.id,
-            title = form.title.data,
-            content = form.content.data,
-            price = form.price.data
+            id=product.id,
+            title=form.title.data,
+            content=form.content.data,
+            price=form.price.data
         )
 
         product.edit_product(new_product)
@@ -113,6 +114,7 @@ def edit_product(id):
         title="Edit Product", form=form,
         legend="Edit product"
     )
+
 
 @app.route("/products/<int:id>/delete/", methods=["POST"])
 @require_login
@@ -131,10 +133,10 @@ def register():
 
     if form.validate_on_submit():
         user = User(
-            email = form.email.data,
-            name = form.username.data,
-            address = form.address.data,
-            phone = form.phone.data
+            email=form.email.data,
+            name=form.username.data,
+            address=form.address.data,
+            phone=form.phone.data
         )
 
         user.password = User.encrypt_password(form.password.data)
@@ -186,7 +188,11 @@ def buy_product(product_id):
 def profile(username):
     user = User.get_user_by_username(username)
 
-    return render_template('user/profile.html', title=username+"'s Profile", user=user)
+    return render_template(
+        'user/profile.html',
+        title=username+"'s Profile", user=user
+    )
+
 
 if __name__ == '__main__':
     app.secret_key = 'i am very secret'
