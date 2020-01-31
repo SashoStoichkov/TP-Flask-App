@@ -2,6 +2,29 @@
 
 Темата на проекта е да се направи прост онлайн магазин.
 
+# How to run
+
+Предполага се, че имате `virtualenv` вече инсталиран
+
+```bash
+$ mkdir 02_15_project
+$ cd 02_15_project
+```
+```bash
+$ git clone git@github.com:SashoStoichkov/TP-Flask-App.git .
+```
+```bash
+$ mkdir venv
+$ cd venv
+$ virtualenv 02-15-env
+$ source 02-15-env/bin/activate
+$ cd ../
+$ pip install -r requirements.txt
+```
+```bash
+$ python3 main.py
+```
+
 ## Authentication
 
 Сайтът ви трябва да позволява потребителите да се регистрират и логват с акаунтите си, след като са се регистрирали. Не е нужно да правите logout, триене на акаунти и тн.

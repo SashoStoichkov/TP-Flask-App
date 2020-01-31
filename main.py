@@ -198,4 +198,4 @@ if __name__ == '__main__':
     app.secret_key = 'i am very secret'
     app.config['SESSION_TYPE'] = 'shopSession'
 
-    app.run(debug=True)
+    app.run()
