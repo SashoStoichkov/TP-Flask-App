@@ -34,7 +34,7 @@
 {% block bought %}
     {% if username == "GuestUser" %}
         <h4>Hello {{ username }}!</h4>
-        <h5>Regitser now <a href="/regitser">here</a> to continue.</h5>
+        <h5>Regitser now <a href="/register">here</a> to continue.</h5>
     {% else %}
         <h4>Hello {{ username }}!</h4>
         <h5>People that bought your products:</h5>
@@ -51,3 +51,29 @@
 
     {% endif %}
 {% endblock bought %}
+
+
+{% block my_products %}
+    {% if username != "GuestUser" %}
+        <h5>Your products:</h5>
+
+        {% if all_products %}
+            {% for product in all_products %}
+                {% if product[1] == product[2] %}
+                    <ul class="list-group">
+                        <li class="list-group-item list-group-item-light text-success">
+                            {{ product[0] }} | Price: {{ product[4] }}
+                        </li>
+                    </ul>
+                {% else %}
+                    <ul class="list-group">
+                        <li class="list-group-item list-group-item-light text-danger">
+                            {{ product[0] }} | Bought by <a href="/profile/{{ product[3] }}">{{ product[3] }}</a>
+                        </li>
+                    </ul>
+                {% endif %}
+            {% endfor %}
+        {% endif %}
+
+    {% endif %}
+{% endblock my_products %}
