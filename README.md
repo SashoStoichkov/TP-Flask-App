@@ -1,6 +1,30 @@
+# How to run
+
+Предполага се, че имате `virtualenv` вече инсталиран
+
+```bash
+$ mkdir 02_15_project
+$ cd 02_15_project
+```
+```bash
+$ git clone git@github.com:SashoStoichkov/TP-Flask-App.git .
+```
+```bash
+$ mkdir venv
+$ cd venv
+$ virtualenv 02-15-env
+$ source 02-15-env/bin/activate
+$ cd ../
+$ pip install -r requirements.txt
+```
+```bash
+$ python3 main.py
+```
+
 # Онлайн магазин
 
 Темата на проекта е да се направи прост онлайн магазин.
+
 
 ## Authentication
 

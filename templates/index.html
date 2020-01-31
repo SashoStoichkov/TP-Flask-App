@@ -1,39 +1,53 @@
 {% extends 'layout.html' %}
 
 {% block content %}
-    {% if products %}
-        <div class="md-form mt-1 mb-2">
-            <input class="form-control" type="text" name="search" placeholder="Search" aria-label="Search">
-        </div>
+    {% if username != "GuestUser" %}
+        {% if products %}
+            <div class="md-form mt-1 mb-2">
+                <input class="form-control" type="text" placeholder="Search" aria-label="Search">
+            </div>
 
-        {% for product in products %}
-            <article class="media content-section">
-                <img class="rounded-circle article-img" src="https://via.placeholder.com/150" alt="">
-                <div class="media-body">
-                    <div class="article-metadata">
-                        <a class="mr-2" href="/profile/{{ product.get_username_by_publisher_id(product.title) }}">
-                            {{ product.get_username_by_publisher_id(product.title) }}
-                        </a>
-                        <small class="text-muted">{{ product.get_product_published_date() }}</small>
+            {% for product in products %}
+                <article class="media content-section">
+                    <img class="rounded-circle article-img" src="https://via.placeholder.com/150" alt="">
+                    <div class="media-body">
+                        <div class="article-metadata">
+                            <a class="mr-2" href="/profile/{{ product.get_username_by_publisher_id(product.title) }}">
+                                {{ product.get_username_by_publisher_id(product.title) }}
+                            </a>
+                            <small class="text-muted">{{ product.get_product_published_date() }}</small>
+                        </div>
+                        <h2>
+                            <a class="article-title" href="{{ url_for('view_product', id=product.id) }}">
+                                {{ product.title }}
+                            </a> | Price: {{ product.price }}
+                        </h2>
+                        <p class="article-content">{{ product.content }}</p>
                     </div>
-                    <h2>
-                        <a class="article-title" href="{{ url_for('view_product', id=product.id) }}">
-                            {{ product.title }}
-                        </a> | Price: {{ product.price }}
-                    </h2>
-                    <p class="article-content">{{ product.content }}</p>
-                </div>
-            </article>
-        {% endfor %}
+                </article>
+            {% endfor %}
+        {% endif %}
     {% endif %}
 {% endblock content %}
 
-<!--
+
 {% block bought %}
-    {% for product in bought_products %}
-        <ul class="list-group">
-            <li class="list-group-item list-group-item-light">test</li>
-        </ul>
-    {% endfor %}
+    {% if username == "GuestUser" %}
+        <h4>Hello {{ username }}!</h4>
+        <h5>Regitser now <a href="/regitser">here</a> to continue.</h5>
+    {% else %}
+        <h4>Hello {{ username }}!</h4>
+        <h5>People that bought your products:</h5>
+
+        {% if bought_products %}
+            {% for product in bought_products %}
+                <ul class="list-group">
+                    <li class="list-group-item list-group-item-light">
+                        {{ product[0] }} - <a href="/profile/{{ product[1] }}">{{ product[1] }}</a>
+                    </li>
+                </ul>
+            {% endfor %}
+        {% endif %}
+
+    {% endif %}
 {% endblock bought %}
--->

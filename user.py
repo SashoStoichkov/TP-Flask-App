@@ -132,17 +132,3 @@ class User:
                     return User(*row)
 
                 return False
-
-    # TODO: fix this
-    # def get_all_products_bought(self):
-    #     with DB() as db:
-    #         products = db.execute(
-    #             '''
-    #                 SELECT *
-    #                 FROM products
-    #                 WHERE owner_id != publisher_id
-    #                     AND owner_id = ?
-    #             ''', (self.id,)
-    #         ).fetchall()
-
-    #         return [product for product in products]

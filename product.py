@@ -96,17 +96,20 @@ class Product:
             return [Product(*product) for product in products]
 
     @staticmethod
-    def get_all_unactive_products():
+    def get_all_unactive_products(publisher_id):
         with DB() as db:
             products = db.execute(
                 '''
-                    SELECT id, title, content, price
-                    FROM products
-                    WHERE is_active = 0
-                '''
+                    SELECT products.title, users.name
+                    FROM users
+                    INNER JOIN products
+                        ON users.id = products.owner_id
+                            AND products.publisher_id != products.owner_id
+                            AND products.publisher_id = ?
+                ''', (publisher_id,)
             ).fetchall()
 
-            return [Product(*product) for product in products]
+            return products
 
     def edit_product(self, new):
         with DB() as db:
