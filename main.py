@@ -32,11 +32,12 @@ def index():
         user_id = User.get_id_by_email(session["email"])
 
         bought_products = Product.get_all_unactive_products(user_id)
+        all_products = Product.get_all_products(user_id)
 
         return render_template(
             "index.html",
             products=products, bought_products=bought_products,
-            username=user.name
+            username=user.name, all_products=all_products
         )
 
     else:
@@ -198,4 +199,4 @@ if __name__ == '__main__':
     app.secret_key = 'i am very secret'
     app.config['SESSION_TYPE'] = 'shopSession'
 
-    app.run()
+    app.run(debug=True)

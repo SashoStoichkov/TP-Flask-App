@@ -71,16 +71,20 @@ class Product:
             return self
 
     @staticmethod
-    def get_all_products():
+    def get_all_products(publisher_id):
         with DB() as db:
             products = db.execute(
                 '''
-                    SELECT id, title, content, price
-                    FROM products
-                '''
+                    SELECT products.title, products.owner_id,
+                        products.publisher_id, users.name, products.price
+                    FROM users
+                    INNER JOIN products
+                        ON users.id = products.owner_id
+                            AND products.publisher_id = ?
+                ''', (publisher_id,)
             ).fetchall()
 
-            return [Product(*product) for product in products]
+            return products
 
     @staticmethod
     def get_all_active_products():
