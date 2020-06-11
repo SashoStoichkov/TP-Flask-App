@@ -72,7 +72,7 @@ def create_product():
     )
 
 
-@app.route("/products/<int:id>/")
+@app.route("/products/<in`t:id>/")
 def view_product(id):
     product = Product.find_product(id)
     auth = 1

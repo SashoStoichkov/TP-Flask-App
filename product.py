@@ -11,7 +11,7 @@ class Product:
         self.price = price
         self.published = self.get_current_datetime()
         self.is_active = 1
-        self.owner_id = None
+        self.owner_id = Noneconnect_to_DB()
         self.publisher_id = None
 
         self.values = (self.id, self.title, self.content, self.price,
